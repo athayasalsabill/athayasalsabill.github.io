@@ -1,18 +1,17 @@
 .link-card {
     text-decoration: none;
-    color: var(--text-dark);
-    display: block;
-    transition: all 0.3s ease;
+    color: inherit;
+    transition: 0.3s;
 }
 
 .link-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transform: translateY(-5px);
 }
 
-.card-content {
-    display: flex;
-    flex-direction: column;
+.created {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 10px;
 }
 
 .image-preview {
@@ -22,12 +21,9 @@
 }
 
 .image-preview img {
-    width: 90px;   /* smaller size */
-    height: 90px;
-    object-fit: cover;
-    border-radius: 12px;
+    width: 48%;
+    border-radius: 10px;
 }
-
 
 /* Product badge */
 .badge {
