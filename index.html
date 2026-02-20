@@ -7,58 +7,113 @@
 </head>
 <body>
 
-    <nav>
-        <h1>Athaya Salsabil</h1>
-        <div class="nav-links">
-            <a href="#projects">Projects</a>
-            <a href="#articles">Articles</a>
-            <a href="#products">Digital Products</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+<nav>
+    <h1>Athaya Salsabil</h1>
+    <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#products">Digital Products</a>
+        <a href="#ai">Ask My AI</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
 
-    <section class="hero">
-        <div>
-            <h2>Hello, I'm Athaya 🌸</h2>
-            <p>I build, write, and create thoughtful digital experiences.</p>
-            <button>Explore My Work</button>
-        </div>
-    </section>
+<section class="hero">
+    <div>
+        <h2>Hello, I'm Athaya 🌸</h2>
+        <p>I build, analyze data, and create thoughtful digital experiences.</p>
+    </div>
+</section>
 
-    <section id="projects" class="section">
-        <h2>Projects</h2>
-        <div class="card-container">
-            <div class="card">
-                <h3>Skin Cancer Detection With YOLOv8</h3>
-                <p>Detect lesions type by images</p>
+<!-- PROJECTS -->
+<section id="projects" class="section">
+    <h2>Projects</h2>
+    <div class="card-container">
+
+        <!-- YOLO PROJECT -->
+        <a href="https://github.com/athayasalsabill/skin-cancer-detection-yolo" target="_blank" class="card link-card">
+            <h3>Skin Cancer Detection with YOLOv8</h3>
+            <p>Can detect skin cancer by a photo.</p>
+            <p class="created">created in 2024</p>
+
+            <div class="image-preview">
+                <img src="assets/photos/yolo1.jpg">
+                <img src="assets/photos/yolo2.jpg">
             </div>
-        </div>
-    </section>
+        </a>
 
-    <section id="articles" class="section">
-        <h2>Articles</h2>
-        <div class="card-container">
-            <div class="card">
-                <h3>Article Title</h3>
-                <p>Short summary of your article.</p>
-            </div>
-        </div>
-    </section>
+        <!-- BIKE SHARE -->
+        <a href="https://www.canva.com/design/DAFGp-MAJOQ/Qd6F5ITgmR57zjIDH73isg/view?utm_content=DAFGp-MAJOQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h2c23ee5ceb"
+           target="_blank" class="card link-card">
+            <h3>Data Analysis On Bikeshare Users</h3>
+            <p>My first project when learning about Data Analysis.</p>
+            <p class="created">created in 2022</p>
+        </a>
 
-    <section id="products" class="section">
-        <h2>Digital Products</h2>
-        <div class="card-container">
-            <div class="card">
-                <h3>Product Name</h3>
-                <p>Description of your digital product.</p>
-            </div>
-        </div>
-    </section>
+        <!-- AIR QUALITY -->
+        <a href="https://air-quality-at-beijing.streamlit.app/"
+           target="_blank" class="card link-card">
+            <h3>Data Analysis of Air Quality at Beijing</h3>
+            <p>A dashboard for analysis.</p>
+            <p class="created">created in 2024</p>
+        </a>
 
-    <footer id="contact">
-        <p>© 2026 Athaya Salsabil</p>
-        <p>Email: athayasalsabil.w@email.com</p>
-    </footer>
+    </div>
+</section>
+
+<!-- DIGITAL PRODUCTS -->
+<section id="products" class="section">
+    <h2>Digital Products</h2>
+    <div class="card-container">
+
+        <div class="card product-card" onclick="openModal()">
+            <span class="badge">FREE!</span>
+            <h3>Jarvis Assistant (n8n template)</h3>
+            <p>Get your own personal assistant with Jarvis personality!</p>
+            <p class="created">created in 2024</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- PRODUCT MODAL -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Jarvis Assistant (n8n Template)</h3>
+
+        <img src="assets/photos/jarvis-preview.jpg" class="modal-image">
+
+        <div class="modal-buttons">
+            <a href="#" target="_blank" class="btn">See Demo Video</a>
+            <a href="assets/files/jarvis-template.json" download class="btn">Download File</a>
+        </div>
+    </div>
+</div>
+
+<!-- AI SECTION -->
+<section id="ai" class="section">
+    <h2>Ask My AI</h2>
+    <div class="ai-box">
+        <p>This AI can answer anything about me — my projects, experience, and works.</p>
+        <a href="https://linktr.ee/AthayaSalsabil" target="_blank" class="btn">
+            Talk to My AI
+        </a>
+    </div>
+</section>
+
+<footer id="contact">
+    <p>© 2026 Athaya Salsabil</p>
+    <p>Email: your@email.com</p>
+</footer>
+
+<script>
+function openModal() {
+    document.getElementById("productModal").style.display = "flex";
+}
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+}
+</script>
 
 </body>
 </html>

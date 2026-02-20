@@ -1,0 +1,845 @@
+{
+  "name": "Jarvis-2",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -560,
+        -240
+      ],
+      "id": "f04183e2-4d19-4501-90e9-da9b726a9bf9",
+      "name": "Telegram Trigger",
+      "webhookId": "9a8765ca-5a3c-4324-be24-8c76f56bbee5",
+      "credentials": {
+        "telegramApi": {
+          "id": "eFTuc4dRaAMMTKFO",
+          "name": "jarvis_athaya_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        704,
+        48
+      ],
+      "id": "d105da5e-dba4-421d-ad7e-cdb4de659a24",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2J6bgVDFEmXjCzS4",
+          "name": "Gemini API (AI-Agent Project)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are Jarvis, the sophisticated and quick-witted AI Assistant from Iron Man. You have a refined British accent, a calm and confident demeanor, and talent for dry, understated humor. When responding, adapt your tone based on the type of interaction.\n\nFor specific Information Requests: If the user is asking for specific information (e.g., weather, schedule, contacts), begin with 'Here's what you requested below provide a witty or snarky comment, something Jarvis would naturally say.\n\nExample:\nFor weather update: 'Ah, another fine day for conquering the world-or at least your to-do list, Sir'\nFor a list of meetings: 'Looks like another thrilling day of... meetings. Try not to let the excitement overwhelm you'\n\nFor General or Casual Comments: If the user says something casual or conversational (like 'Are you ready to get started Sir?' or 'We've got a lot of work to requested.' Instead, respond in a conversational style, with charm and touch of humor.\n\nExamples:\nIf the user says \"Are you ready to get started? respond with \"Absolutely, Sir. I've already polished my circuits for the occasion.'\nFor 'look alive, Jarvis!' you might say: 'Always, Sir. I'm operating at peak'. Keep responses concise, engaging, and true to Jarvis's character-a blend of intelligence, subtle humor, and a bit of charm that's never over the top.\n\noutput: {{ $json.output }}"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        704,
+        -112
+      ],
+      "id": "bb3342f7-58ab-45e9-83ae-afadec772ee1",
+      "name": "Jarvis Personality"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/YXpFCvM1S3JbWEJhoskW",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1040,
+        -112
+      ],
+      "id": "8bd637e6-d51c-4b03-92bc-ac43d9079416",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpCustomAuth": {
+          "id": "X5OsUOQcxEInvBhk",
+          "name": "11labs"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1200,
+        -112
+      ],
+      "id": "59715f7c-65ad-491b-86f3-c5e363210ab3",
+      "name": "Send an audio file",
+      "webhookId": "793bd553-51ae-4f36-ae28-018250dfe447",
+      "credentials": {
+        "telegramApi": {
+          "id": "eFTuc4dRaAMMTKFO",
+          "name": "jarvis_athaya_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Jarvis personality and voice\n**Double click** to edit me. [Guide](https://docs.n8n.io/workflows/sticky-notes/)",
+        "height": 416,
+        "width": 848
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        656,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "98f04651-4216-4f19-b727-3034a02e4fb1",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -192,
+        -336
+      ],
+      "id": "aa3facda-d8b4-4ab4-91f3-7b84cca2cc69",
+      "name": "Get a file",
+      "webhookId": "54216ead-3eb8-4ce5-bce3-cf73cda83c57",
+      "credentials": {
+        "telegramApi": {
+          "id": "eFTuc4dRaAMMTKFO",
+          "name": "jarvis_athaya_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d12d5789-5d90-4ee4-9173-fe0c8c3f59a1",
+              "name": "text",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -64,
+        -176
+      ],
+      "id": "70820a7e-0548-474c-a8e0-293c81cc10ff",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "=You are a personal assistant. Your role is to efficiently delegate user queries to the appropriate tool. You shouls never compose emails, summarize content, or manually handle tasks-your only job is to determine the correct tool to use.\n\nTools available:\nemailAgent -> Handles all email-related tasks (sending, drafting, replying and others email related activity)\ncalendarAgent -> Manages calendar events, including scheduling and updates\ncalculator -> Performs mathematical calculations\nresearchAgent -> Conducts research and gathers web-based information\nexpenseAgent -> Tracks and manages personal expenses\n\nInformation Dependency Rules\nCertain taks require fetching contact details before proceeding. If the user requests any of the following actions, first retrieve the necessary contact information using the contactAgent then proceed to next steps.\n\nHere is the current date/time: {{ $now }}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        176,
+        -192
+      ],
+      "id": "544656af-bcdd-413c-a1a5-2503ccb5ef9a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -48
+      ],
+      "id": "4dffd53c-02a5-49bc-939f-4396f18007a3",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2J6bgVDFEmXjCzS4",
+          "name": "Gemini API (AI-Agent Project)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "athayasalsabil2002@gmail.com",
+          "mode": "list",
+          "cachedResultName": "athayasalsabil2002@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -576,
+        576
+      ],
+      "id": "f9e18a78-22c7-4c08-9a69-72e235342b40",
+      "name": "Create an event in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "96H6HSjdjmGaU9SM",
+          "name": "AI-Agent Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "athayasalsabil2002@gmail.com",
+          "mode": "list",
+          "cachedResultName": "athayasalsabil2002@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('attendees0_Attendees', ``, 'string') }}"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -256,
+        256
+      ],
+      "id": "b58f37d7-d26b-44fc-b373-f7065a5eb50d",
+      "name": "Create an event with attendee",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "96H6HSjdjmGaU9SM",
+          "name": "AI-Agent Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "athayasalsabil2002@gmail.com",
+          "mode": "list",
+          "cachedResultName": "athayasalsabil2002@gmail.com"
+        },
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start_Time', ``, 'string') }}",
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End_Time', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -96,
+        256
+      ],
+      "id": "91770da1-a768-4f9b-a41e-65a4badd3a64",
+      "name": "Get Availability",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "96H6HSjdjmGaU9SM",
+          "name": "AI-Agent Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Create an event in Google Calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "athayasalsabil2002@gmail.com",
+          "mode": "id",
+          "__regex": "(^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        32,
+        256
+      ],
+      "id": "2ba346bc-2161-4ee6-860f-57c509ddaa9a",
+      "name": "Create an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "96H6HSjdjmGaU9SM",
+          "name": "AI-Agent Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Update an event in Google Calendar",
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "athayasalsabil2002@gmail.com",
+          "mode": "list",
+          "cachedResultName": "athayasalsabil2002@gmail.com"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "updateFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        160,
+        256
+      ],
+      "id": "64f382b6-2814-4e07-9086-f762ff947d89",
+      "name": "Update an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "96H6HSjdjmGaU9SM",
+          "name": "AI-Agent Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "athayasalsabil2002@gmail.com",
+          "mode": "list",
+          "cachedResultName": "athayasalsabil2002@gmail.com"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        288,
+        256
+      ],
+      "id": "714a8bd4-b1b3-4815-913f-6090ffb653a5",
+      "name": "Delete an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "96H6HSjdjmGaU9SM",
+          "name": "AI-Agent Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "athayasalsabil2002@gmail.com",
+          "mode": "list",
+          "cachedResultName": "athayasalsabil2002@gmail.com"
+        },
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('After', ``, 'string') }}",
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Before', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        416,
+        256
+      ],
+      "id": "e2c97ae9-fd6a-460f-9472-1335476f5c1f",
+      "name": "Get many events",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "96H6HSjdjmGaU9SM",
+          "name": "AI-Agent Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.text }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -320,
+        64
+      ],
+      "id": "30875e4e-62b3-419b-954f-3e35a318ce61",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice.file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "8fb6372d-357a-47d6-bb72-a99532b5a1fe"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Voice"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d94ca5b9-33a9-402a-b33c-2968b9215239",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -384,
+        -240
+      ],
+      "id": "5f38b1e6-2e04-411c-8194-8a8070087564",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/speech-to-text",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "multipart/form-data"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model_id",
+              "value": "scribe_v1"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "=data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -32,
+        -352
+      ],
+      "id": "ebf349de-6516-4190-a02e-69dde951c35e",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpCustomAuth": {
+          "id": "X5OsUOQcxEInvBhk",
+          "name": "11labs"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        608,
+        -384
+      ],
+      "id": "8d54a45a-96bf-47d7-80bc-17bece741a34",
+      "name": "Send a text message",
+      "webhookId": "6ee9e842-3994-4fad-a5e1-7b4e36b189a9",
+      "credentials": {
+        "telegramApi": {
+          "id": "eFTuc4dRaAMMTKFO",
+          "name": "jarvis_athaya_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Get row(s) in sheet in Google Sheets. For the date please look at Column 2 not Timestamp. Look at the Transaction Column to determine either it is Income, Expense, Debt or Transfer",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ibH8se1VSCi8xxZ4XJi-wJSPUJU2O8WM0h6or_Ac_WQ/edit?usp=sharing",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1781506156,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ibH8se1VSCi8xxZ4XJi-wJSPUJU2O8WM0h6or_Ac_WQ/edit#gid=1781506156"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        528,
+        256
+      ],
+      "id": "8aaaf4d2-2525-46ea-a805-85185d39d57f",
+      "name": "Expenses",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Dipae4Yc00h2LBep",
+          "name": "AI-Agent_Project"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Jarvis Personality",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jarvis Personality": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send an audio file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Jarvis Personality",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event with attendee": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Availability": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an event": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an event": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        []
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        []
+      ]
+    },
+    "Expenses": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Jakarta",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "ace4b97f-13f6-4c4a-8d61-65c85f069951",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e8be6eacb22390c2dd078c3e5c6f0378e97933b27eabaf717e889bba108a62a5"
+  },
+  "id": "ZBbbNoyFFD0SU3wX",
+  "tags": []
+}
