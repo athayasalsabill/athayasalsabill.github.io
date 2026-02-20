@@ -1,19 +1,96 @@
-.link-card {
+:root {
+    --bg: #f6edea;
+    --primary: #d8a7b1;
+    --secondary: #b5838d;
+    --text-dark: #3a3a3a;
+    --text-light: #7a6f6f;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text-dark);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10%;
+    background-color: var(--white);
+}
+
+nav h1 {
+    color: var(--secondary);
+}
+
+.nav-links a {
+    margin-left: 20px;
     text-decoration: none;
-    color: inherit;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.hero {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+}
+
+.hero h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.hero button {
+    padding: 10px 20px;
+    background-color: var(--primary);
+    border: none;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
     transition: 0.3s;
 }
 
-.link-card:hover {
-    transform: translateY(-5px);
+.hero button:hover {
+    background-color: var(--secondary);
 }
 
-.created {
-    font-size: 13px;
+.section {
+    padding: 80px 10%;
+}
+
+.section h2 {
+    margin-bottom: 40px;
+    color: var(--secondary);
+}
+
+.card-container {
+    display: flex;
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    flex: 1;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    background-color: var(--white);
     color: var(--text-light);
-    margin-top: 10px;
 }
-
 .image-preview {
     display: flex;
     gap: 10px;
@@ -21,83 +98,24 @@
 }
 
 .image-preview img {
-    width: 48%;
-    border-radius: 10px;
+    width: 90px;   /* smaller size */
+    height: 90px;
+    object-fit: cover;
+    border-radius: 12px;
 }
-
-/* Product badge */
-.badge {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background-color: var(--primary);
-    color: white;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 15px;
-}
-
-.product-card {
-    position: relative;
-    cursor: pointer;
-}
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.4);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 30px;
-    border-radius: 20px;
-    width: 400px;
-    text-align: center;
-}
-
-.modal-image {
-    width: 100%;
-    border-radius: 15px;
-    margin: 20px 0;
-}
-
-.modal-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.btn {
-    background-color: var(--primary);
-    color: white;
-    padding: 8px 15px;
-    border-radius: 20px;
+.link-card {
     text-decoration: none;
-    font-size: 14px;
+    color: var(--text-dark);
+    display: block;
+    transition: all 0.3s ease;
 }
 
-.btn:hover {
-    background-color: var(--secondary);
+.link-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-.close {
-    float: right;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.ai-box {
-    background-color: white;
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+.card-content {
+    display: flex;
+    flex-direction: column;
 }
