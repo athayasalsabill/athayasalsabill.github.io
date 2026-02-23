@@ -13,6 +13,12 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+}
 
 body {
     background-color: var(--bg);
@@ -242,6 +248,32 @@ footer {
 
     h2 {
         font-size: 22px;
+    }
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: center;
+        /* padding: 15px 5%; */
+    }
+
+    nav {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    nav ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        /* display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0; */
+    }
+
+    nav ul li {
+        list-style: none;
     }
 
 }
